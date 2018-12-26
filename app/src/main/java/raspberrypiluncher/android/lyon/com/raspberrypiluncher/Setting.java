@@ -2,8 +2,10 @@ package raspberrypiluncher.android.lyon.com.raspberrypiluncher;
 
 import android.annotation.SuppressLint;
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.ActivityNotFoundException;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.pm.ResolveInfo;
 import android.media.MediaPlayer;
@@ -132,12 +134,43 @@ public class Setting extends Activity {
             }
         });
 
+        gridView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(AdapterView<?> parent, View view, int position, long id) {
+                if(position<addCount)
+                    return true;
+                final ResolveInfo resolveInfo = apps.get(position-addCount);
+                AlertDialog.Builder builder = new AlertDialog.Builder(Setting.this);
+                builder.setMessage(R.string.delete_app+":"+resolveInfo.activityInfo.name)
+                        .setPositiveButton(R.string.ok, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // FIRE ZE MISSILES!
+                                dialog.dismiss();
+
+                                String packageName = resolveInfo.activityInfo.applicationInfo.packageName;
+                                Uri packageUri = Uri.parse("package:"+packageName);
+                                Intent uninstallIntent =
+                                        new Intent(Intent.ACTION_DELETE, packageUri);
+                                uninstallIntent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+                                startActivity(uninstallIntent);
+
+                            }
+                        })
+                        .setNegativeButton(R.string.cancel, new DialogInterface.OnClickListener() {
+                            public void onClick(DialogInterface dialog, int id) {
+                                // User cancelled the dialog
+                                dialog.dismiss();
+                            }
+                        });
+                AlertDialog dialog=builder.create();
+                dialog.show();
+                return true;
+            }
+        });
 
 
     }
-
-
-
+    
     @Override
     protected void onResume() {
         super.onResume();
@@ -146,8 +179,7 @@ public class Setting extends Activity {
         TextView2.setText( "" + getLocalIpAddress(this).replace("\n",", "));
 
         apps=loadApps();
-        appsAdapter.notifyDataSetChanged();
-
+        appsAdapter.setNotifyDataSetChanged(apps);
     }
 
     private List<ResolveInfo> loadApps() {

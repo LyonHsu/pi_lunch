@@ -93,4 +93,9 @@ public class AppsAdapter  extends BaseAdapter {
         TextView text;
         TextView stext;
     }
+
+    public void setNotifyDataSetChanged(List<ResolveInfo> apps){
+        this.apps=apps;
+        notifyDataSetChanged();
+    }
 }

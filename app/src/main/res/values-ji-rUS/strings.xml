@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">RaspberryPiLuncher</string>
+
+    <string name="wifistatus">Ｗifi stats：</string>
+    <string name="wifiname">Ｗifi Name(SSID)：</string>
+    <string name="wifipassword">Ｗifi PassWD(PASSWD)：</string>
+    <string name="wifishowpassword">show PassWD(SHOWPW)：</string>
+    <string name="wifisecuritytype">Ｗifi TYPE：</string>
+    <string name="wificonnect">CONNECT</string>
+    <string name="wifititle">Ｗifi Error</string>
+    <string name="wifioffmassage">This function needs to enable the wireless network before proceeding to the next step. Please confirm whether you want to enable the wireless network?</string>
+
+    <string name="delete_app">Is delete app</string>
+    <string name="ok">confirm</string>
+    <string name="cancel">cancel</string>
+</resources>
